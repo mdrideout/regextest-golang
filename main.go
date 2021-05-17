@@ -18,6 +18,23 @@ type foodIngredients []string
 // Food is a list of food ingredients
 type foodList []foodIngredients
 
+// Global regular expressions
+var r1 = regexp.MustCompile(`\s\(`)
+var r2 = regexp.MustCompile(`\)`)
+var r2a = regexp.MustCompile(`\s\[`)
+var r2b = regexp.MustCompile(`\]`)
+var r3 = regexp.MustCompile(`(contains .+ or less of(:?)(\s?))|(contains \d% or less of(:?)(\s?))|(contains less than \d% of(:?)(\s?))|(contains less than \d%(:?)(\s?))|(contains one or more of(:?)(\s?))|(each of the following(:?)(\s?))|(the following(:?)(\s?))`)
+var r4 = regexp.MustCompile(`:\s`)
+var r5 = regexp2.MustCompile(`[.](?=.*[.,])`, 0) // lookaround requires regexp2 library
+var r6 = regexp.MustCompile(`\.$`)
+var r7 = regexp.MustCompile(`(, and )`)
+var r8 = regexp.MustCompile(`( and )`)
+var r9 = regexp.MustCompile(`\*`)
+var r10 = regexp.MustCompile(`(, )`)
+var r11 = regexp.MustCompile(`;`)
+var r12 = regexp.MustCompile(`( - )`)
+var r13 = regexp.MustCompile(`\,\,`)
+
 func main() {
 	log.Print("starting server...")
 	http.HandleFunc("/", handler)
@@ -99,25 +116,6 @@ func createFoodList() foodList {
 }
 
 func cleanIngredientString(s string) foodIngredients {
-	// Regular expressions for cleaning the ingredient string
-	r1 := regexp.MustCompile(`\s\(`)
-	r2 := regexp.MustCompile(`\)`)
-	r2a := regexp.MustCompile(`\s\[`)
-	r2b := regexp.MustCompile(`\]`)
-	r3 := regexp.MustCompile(`(contains .+ or less of(:?)(\s?))|(contains \d% or less of(:?)(\s?))|(contains less than \d% of(:?)(\s?))|(contains less than \d%(:?)(\s?))|(contains one or more of(:?)(\s?))|(each of the following(:?)(\s?))|(the following(:?)(\s?))`)
-	r4 := regexp.MustCompile(`:\s`)
-	r5 := regexp2.MustCompile(`[.](?=.*[.,])`, 0) // lookaround requires regexp2 library
-	r6 := regexp.MustCompile(`\.$`)
-	r7 := regexp.MustCompile(`(, and )`)
-	r8 := regexp.MustCompile(`( and )`)
-	r9 := regexp.MustCompile(`\*`)
-	r10 := regexp.MustCompile(`(, )`)
-	r11 := regexp.MustCompile(`;`)
-	r12 := regexp.MustCompile(`( - )`)
-
-	// Always Final - replace double commas with single comma
-	r13 := regexp.MustCompile(`\,\,`)
-
 	// Convert ingredient string to lowercase
 	s = strings.ToLower(s)
 
